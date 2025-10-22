@@ -18,6 +18,13 @@ const apiService = {
     async getReviewsPostedByUser(id) {
         return await axios.get(`${API_URL}/reviews?reviewedById=${id}`);
     },
+
+
+    async loginUser(email, password) {
+        const res = await axios.get(`${API_URL}/users?email=${email}&password=${password}`);
+        return res;
+    }
 };
 
-export default apiService;
+
+export default backEnd;

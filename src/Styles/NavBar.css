@@ -1,0 +1,28 @@
+nav {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* App title (ReviewApp) */
+nav h2 {
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Chat button */
+nav button {
+    background-color: white;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+nav button:hover {
+    background-color: #ddd; }

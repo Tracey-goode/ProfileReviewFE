@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Home from "./components/Home";
-import ProfilePage from "./components/ProfilePage";
+import { Router, Routes, Route } from "react-router-dom";
+// import Login from "./components/Login";
+import Home from "./Pages/Home";
+import ProfilePage from "./Components/UserCard";
 
 function App() {
   return (
