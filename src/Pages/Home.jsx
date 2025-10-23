@@ -1,57 +1,59 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UserCard from "../Components/UserCard";
 import Navbar from "../Components/NavBar";
-import backEnd from "../Components/backEndApi/BackEnd";
-import "../Styles/Homepage.css";
+import axios from "axios";
 
-function Home() {
-    const [users, setUsers] = useState([]);
+export default function Home() {
     const navigate = useNavigate();
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    function shuffle(array) {
-        return array.sort(() => Math.random() - 0.5);
-    }
-
-    async function getData() {
-        try {
-            const res = await backEnd.getUsers();
-            setUsers(shuffle(res.data));
-        } catch (err) {
-            console.error("Error fetching users:", err.message);
-        }
-    }
+    // Get stored token
+    const token = localStorage.getItem("token");
 
     useEffect(() => {
-        getData();
-    }, []);
+        async function fetchUsers() {
+            try {
+                const res = await axios.get("http://localhost:3000/api/user", {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // send token for auth
+                    },
+                });
+
+                // Shuffle users randomly
+                const shuffled = res.data.sort(() => Math.random() - 0.5);
+                setUsers(shuffled);
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching users:", err);
+                setError("Failed to load users.");
+                setLoading(false);
+            }
+        }
+
+        fetchUsers();
+    }, [token]);
+
+    function handleReload() {
+        // Shuffle again
+        setUsers([...users].sort(() => Math.random() - 0.5));
+    }
+
+    if (loading) return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading users...</p>;
 
     return (
         <div>
-            <Navbar onReload={getData} />
+            <Navbar onReload={handleReload} />
+            {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-            <div className="home-container">
+            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "15px", marginTop: "20px" }}>
                 {users.map((user) => (
-                    <div
-                        key={user.id}
-                        className="user-card"
-                        onClick={() => navigate(`/user/${user.id}`)}
-                    >
-                        <h4>User #{user.id}</h4>
-                        <p>{user.bio || "No bio available"}</p>
-                    </div>
+                    <UserCard key={user._id || user.id} user={user} />
                 ))}
             </div>
         </div>
     );
-
 }
 
-useEffect(() => {
-    const loggedInUser = JSON.parse(localStorage.getItem("user"));
-    if (!loggedInUser) {
-        navigate("/");
-    }
-    getData();
-}, []);
-
-export default Home;

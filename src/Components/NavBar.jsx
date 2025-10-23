@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../Styles/Navbar.css";
+import "../Styles/NavBar.css";
 
 function Navbar({ onReload }) {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ function Navbar({ onReload }) {
       }
 
     return (
-        <nav classNAme="navbar">
+        <nav className="navbar">
             <h2 onClick={onReload}>ReviewApp</h2>
 
             <div>
