@@ -29,8 +29,6 @@ export default function Login() {
       await login({ email, password });
       navigate("/home"); // go to homepage after login
     } catch (err) {
-      // Show a simple error message for beginners; backend errors
-      // may contain more details in console.
       setError("Invalid email or password");
     }
   };

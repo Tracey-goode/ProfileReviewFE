@@ -183,8 +183,8 @@ export default function ProfilePage() {
         <div>
             <Navbar onReload={() => { }} />
 
-            <div className="profile-container">
-                <div style={{ width: "120px", height: "120px", backgroundColor: "#ccc", borderRadius: "50%", margin: "0 auto 10px auto" }}></div>
+            <div className="profile-container" style={{ boxShadow: '5px', background: 'transparent', borderRadius: '12px', padding: '20px' }}>
+                <div style={{ width: "120px", height: "120px", backgroundColor: "#ddd", borderRadius: "4px", margin: "0 auto 10px auto" }}></div>
 
                 {isOwnProfile && (
                     <button onClick={() => {
@@ -193,8 +193,8 @@ export default function ProfilePage() {
                         }
                         setIsEditing(!isEditing);
                         setError("");
-                    }} style={{ margin: "10px 0" }}>
-                        {isEditing ? "Cancel Edit" : "Update Profile"}
+                    }} style={{ margin: "8px 0", background: 'transparent', border: '1px solid #ccc', padding: '6px 10px' }}>
+                        {isEditing ? "Nevermind" : "Edit Profile?"}
                     </button>
                 )}
 
@@ -216,7 +216,7 @@ export default function ProfilePage() {
                             <label>Kink:</label>
                             <input type="text" value={editForm.kink} onChange={(e) => setEditForm(prev => ({ ...prev, kink: e.target.value }))} style={{ width: "100%", marginTop: "5px" }} />
                         </div>
-                        <button type="submit" style={{ marginTop: "10px" }}>Save Changes</button>
+                        <button type="submit" style={{ marginTop: "10px", background: 'transparent', border: '1px solid #aaa', padding: '6px 10px' }}>Save</button>
                     </form>
                 ) : (
                     <div>
@@ -227,8 +227,8 @@ export default function ProfilePage() {
                     </div>
                 )}
 
-                <div style={{ maxWidth: "600px", margin: "10px auto", textAlign: "left" }}>
-                    <h3>Write a Review</h3>
+                <div style={{ maxWidth: "600px", margin: "10px auto", textAlign: "left", background: 'transparent' }}>
+                    <h3>Reviews </h3>
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     <form onSubmit={handlePostReview}>
                         <label>
@@ -245,12 +245,12 @@ export default function ProfilePage() {
                             <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder="Share your experience..." rows={4} style={{ width: "100%" }} />
                         </div>
                         <div style={{ marginTop: "8px", textAlign: "right" }}>
-                            <button type="submit" disabled={posting} style={{ padding: "6px 12px" }}>{posting ? "Posting..." : "Post Review"}</button>
+                            <button type="submit" disabled={posting} style={{ padding: "6px 12px", background: 'transparent', border: '1px solid #aaa' }}>{posting ? "Posting..." : "Post"}</button>
                         </div>
                     </form>
                 </div>
 
-                <h3>Reviews Received</h3>
+                <h3>Reviews</h3>
                 {reviews.length === 0 ? (
                     <p>No reviews yet.</p>
                 ) : (
@@ -260,7 +260,7 @@ export default function ProfilePage() {
                         const isAuthor = reviewerId === currentUserId;
 
                         return (
-                            <div key={reviewId} className="review" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <div key={reviewId} className="review" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: 'transparent', boxShadow: 'none', borderRadius: 0, border: '1px solid #eee', padding: '10px' }}>
                                 <div style={{ width: "100%" }}>
                                     {editingReviewId === reviewId ? (
                                         <div>
@@ -279,7 +279,7 @@ export default function ProfilePage() {
                                     ) : (
                                         <div>
                                             <p style={{ margin: 0 }}><strong>Rating:</strong> {r.rating || "-"}</p>
-                                            <p style={{ margin: 0 }}><strong>Comment:</strong> {r.text || ""}</p>
+                                            <p style={{ margin: 0 }}> {r.text || ""}</p>
                                             <p style={{ margin: 0, fontSize: "0.9em", color: "#666" }}>{new Date(r.createdAt).toLocaleString()}</p>
                                         </div>
                                     )}
@@ -289,17 +289,17 @@ export default function ProfilePage() {
                                     {editingReviewId === reviewId ? (
                                         <>
                                             <button onClick={() => handleSaveEdit(reviewId)} style={{ padding: "6px 10px", marginRight: "6px" }}>Save</button>
-                                            <button onClick={handleCancelEdit} style={{ padding: "6px 10px" }}>Cancel</button>
+                                            <button onClick={handleCancelEdit} style={{ padding: "6px 10px" }}>Nevermind</button>
                                         </>
                                     ) : (
                                         <>
                                             {isAuthor ? (
                                                 <>
-                                                    <button onClick={() => handleEditClick(r)} style={{ padding: "6px 10px", marginRight: "6px" }}>Edit</button>
-                                                    <button onClick={() => handleDelete(reviewId)} style={{ padding: "6px 10px", marginRight: "6px", backgroundColor: "#ff4444" }}>Delete</button>
+                                                    <button onClick={() => handleEditClick(r)} style={{ padding: "6px 10px", marginRight: "6px", background: 'transparent', border: '1px solid #ccc' }}>Edit</button>
+                                                    <button onClick={() => handleDelete(reviewId)} style={{ padding: "6px 10px", marginRight: "6px", background: '#fcc', border: '1px solid #faa' }}>Delete</button>
                                                 </>
                                             ) : (
-                                                <button onClick={() => handleReport(reviewId)} style={{ padding: "6px 10px", marginRight: "6px" }}>Report</button>
+                                                <button onClick={() => handleReport(reviewId)} style={{ padding: "6px 10px", marginRight: "6px", background: 'transparent', border: '1px solid #ccc' }}>Report</button>
                                             )}
                                         </>
                                     )}

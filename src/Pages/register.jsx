@@ -31,7 +31,7 @@ export default function Register() {
     }
   };
 
-  // Render the registration form. Inputs are controlled by React state.
+  // Render the registration form. Inputs are controlled by state.
   return (
     <div className="login-page">
       <h2>Register</h2>
@@ -53,8 +53,6 @@ export default function Register() {
         />
 
         <button type="submit">Register</button>
-
-        {/* Show errors in red to help beginners understand what went wrong */}
         {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
       </form>
 

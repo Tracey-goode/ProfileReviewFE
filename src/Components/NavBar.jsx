@@ -27,26 +27,22 @@ function Navbar({ onReload }) {
 
     return (
         <nav className="navbar">
-            {/* Clicking the title goes to home and triggers reload if provided */}
             <h2 onClick={() => {
                 navigate('/');
                 if (onReload) onReload();
             }} style={{ cursor: 'pointer' }}>ReviewApp</h2>
 
             <div>
-                {/* Profile button - always show if user is logged in */}
+                {/* Profile button */}
                 {currentUserId && (
                     <button onClick={() => navigate(`/profile/${currentUserId}`)}>
                         My Profile
                     </button>
                 )}
 
-                {/* Chats is not implemented yet - show a friendly message */}
                 <button onClick={() => alert("Chats not available yet")}>
                     Chats
                 </button>
-
-                {/* Logout clears auth state and navigates to login */}
                 <button onClick={handleLogout} className="logout-button">
                     Logout
                 </button>
