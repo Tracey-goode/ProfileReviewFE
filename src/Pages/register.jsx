@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Components/AuthContext.jsx";
+import "../Styles/login.css";
 
 // Register page component
 export default function Register() {
@@ -32,36 +33,32 @@ export default function Register() {
 
   // Render the registration form. Inputs are controlled by React state.
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="login-page">
       <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+      <form className="login-form" onSubmit={handleSubmit}>
+        <label>Email:</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <label>Password:</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
         <button type="submit">Register</button>
+
+        {/* Show errors in red to help beginners understand what went wrong */}
+        {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
       </form>
 
-      {/* Show errors in red to help beginners understand what went wrong */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <p>
+      <p style={{ marginTop: "20px" }}>
         Already have an account? <a href="/login">Login</a>
       </p>
     </div>

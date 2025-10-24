@@ -1,20 +1,29 @@
-nav {
+/* Fixed top navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: #333;
     color: white;
-    padding: 10px;
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 56px;
+    box-sizing: border-box;
+    z-index: 1000;
 }
 
 /* App title (ReviewApp) */
-nav h2 {
+.navbar h2 {
     cursor: pointer;
     margin: 0;
+    font-size: 1.25rem;
 }
 
-/* Chat button */
-nav button {
+/* Buttons in the navbar */
+.navbar button {
     background-color: white;
     color: #333;
     border: none;
@@ -22,7 +31,14 @@ nav button {
     padding: 6px 10px;
     cursor: pointer;
     font-weight: bold;
+    margin-left: 8px;
 }
 
-nav button:hover {
-    background-color: #ddd; }
+.navbar button:hover {
+    background-color: #ddd;
+}
+
+/* Make sure page content isn't hidden under the fixed navbar */
+body {
+    padding-top: 56px; /* matches navbar height */
+}

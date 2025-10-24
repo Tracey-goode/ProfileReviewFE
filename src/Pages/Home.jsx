@@ -8,6 +8,7 @@ import UserCard from "../Components/UserCard";
 import Navbar from "../Components/NavBar";
 import { useAuth } from "../Components/AuthContext";
 import axios from "axios";
+import "../Styles/Homepage.css";
 
 // Home page component
 export default function Home() {
@@ -31,7 +32,7 @@ export default function Home() {
     useEffect(() => {
         async function fetchUsers() {
             try {
-                const res = await axios.get("http://localhost:3000/api/user/profile", {
+                const res = await axios.get("http://localhost:3000/api/user/all", {
                     headers: {
                         // Send the auth token in the Authorization header
                         Authorization: `Bearer ${token}`, // send token for auth
@@ -39,7 +40,7 @@ export default function Home() {
                 });
 
                 // Shuffle users randomly so the order changes on reload
-                const shuffled = res.data.sort(() => Math.random() - 0.5);
+                const shuffled = res.data.users.sort(() => Math.random() - 0.5);
                 setUsers(shuffled);
                 setLoading(false);
             } catch (err) {
@@ -70,7 +71,7 @@ export default function Home() {
 
             {/* Display users in a responsive grid using flexbox. Each user
                 is rendered as a UserCard component that links to their profile. */}
-            <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "15px", marginTop: "20px" }}>
+            <div className="home-container">
                 {users.map((user) => (
                     <UserCard key={user._id || user.id} user={user} />
                 ))}

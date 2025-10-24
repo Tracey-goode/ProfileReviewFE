@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../Styles/Homepage.css";
 
 // UserCard.jsx
 // Displays a single user's summary as a card. If the user has a valid
@@ -11,27 +12,21 @@ export default function UserCard({ user }) {
     // Only make the card interactive if we have an ID to navigate to
     const clickable = !!userId;
 
-    return (
+        return (
         <div
             // Only attach an onClick handler when we have a valid userId
             onClick={clickable ? () => navigate(`/profile/${userId}`) : undefined}
             // role="button" improves keyboard/screen-reader affordance when clickable
             role={clickable ? "button" : undefined}
+            className="user-card"
             style={{
-                border: "1px solid gray",
-                borderRadius: "8px",
-                padding: "10px",
-                width: "180px",
-                // Show pointer cursor only when interactive
+                // Only dynamic bits remain inline: interactivity and opacity
                 cursor: clickable ? "pointer" : "default",
-                textAlign: "center",
-                boxShadow: "2px 2px 6px rgba(0,0,0,0.1)",
-                // Slightly dim and disable pointer events when not clickable
                 opacity: clickable ? 1 : 0.65,
                 pointerEvents: clickable ? "auto" : "none",
             }}
         >
-            {/* Placeholder circular thumbnail for the user */}
+            {/* thumbnail for the user */}
             <div
                 style={{
                     width: "100px",
@@ -41,9 +36,6 @@ export default function UserCard({ user }) {
                     margin: "0 auto 10px auto",
                 }}
             ></div>
-
-            {/* Show the user's id as a simple title */}
-            <h4>User #{user._id || user.id}</h4>
             {/* Display preview information when available */}
             {user.bio && <p><strong>Bio:</strong> {user.bio}</p>}
             {user.height && <p><strong>Height:</strong> {user.height} cm</p>}
