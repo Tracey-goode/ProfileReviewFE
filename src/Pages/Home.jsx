@@ -1,7 +1,4 @@
-// Home.jsx
-// The main landing page after login. It fetches and displays all users
-// as cards. Clicking a user card navigates to their profile page where
-// reviews can be seen.
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserCard from "../Components/UserCard";

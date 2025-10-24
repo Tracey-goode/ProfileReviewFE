@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Components/AuthContext.jsx";
@@ -22,7 +21,7 @@ export default function Register() {
 
     try {
       await signUp({ email, password });
-      navigate("/home"); // go to homepage after signup
+      navigate("/home"); 
     } catch (err) {
       setError("Registration failed. Maybe email already exists?");
     }

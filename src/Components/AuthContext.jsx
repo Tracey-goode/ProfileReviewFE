@@ -1,6 +1,6 @@
 
 import {useCookies} from 'react-cookie';
-import{createContext, useState, useEffect, useContext} from 'react';
+import{createContext, useState, useContext} from 'react';
 import axios from 'axios';
 
 
