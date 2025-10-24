@@ -4,49 +4,56 @@ import axios from 'axios';
 
 const AuthContext = createContext();
 
-export default function AuthProvider({ children }) {
-    const [ cookies, setCookie, removeCookie] = useCookies(["token"]);
-    const [token, setToken] = useState(cookies.token || null);
-    const [user, setUser] = useState(null);
-    
-    useEffect(() => {
-        setToken(cookies.token || null);
-    }, [cookies.token]);
+export function AuthProvider({ children }) {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [user, setUser] = useState(null); // will be set only on login
 
-    useEffect(() => {
-        if(token) {
-            setCookie("token", token, {path: "/", sameSite: "lax"});
-        } else {
-            removeCookie("token", {path: "/"});
-        }
-    }, [token, setCookie, removeCookie]);
+  const connStr = "http://localhost:3000/api";
 
-    useEffect(() => {
-        async function fetchUser() {
-            if(!token) return;
-            try{
-                const res = await axios.get("http://localhost:3000/api/auth", {
-                    headers: {Authorization: `Bearer ${token}`},
-                    withCredentials: true,
-                });
-                setUser(res.data);
-            } catch (err) {
-                console.error("Auto-login failed");
-                logout();
-            }
-        }
-        fetchUser();
-    }, [token]);
-    
-    const logout = () => {
-        removeCookie("token", {path: "/"});
-        setToken(null);
-        setUser(null);
-    };
+  // Login function
+  async function login(formData) {
+    try {
+      const res = await axios.post(`${connStr}/auth/login`, formData, {
+        withCredentials: true,
+      });
 
-    return(
-        <AuthContext.Provider value={{ token, setToken, user, setUser, logout}}>
-            {children}
-        </AuthContext.Provider>
-    );
+      setCookie("token", res.data.token, { path: "/" });
+      setUser(res.data.user); // set user after login
+    } catch (err) {
+      console.error("Login failed", err.response?.data || err.message);
+      throw err;
+    }
+  }
+
+  // Register function
+  async function signUp(formData) {
+    try {
+      const res = await axios.post(`${connStr}/auth/register`, formData, {
+        withCredentials: true,
+      });
+
+      setCookie("token", res.data.token, { path: "/" });
+      setUser(res.data.user);
+    } catch (err) {
+      console.error("Signup failed", err.response?.data || err.message);
+      throw err;
+    }
+  }
+
+  // Logout function
+  function logout() {
+    removeCookie("token", { path: "/" });
+    setUser(null);
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, login, signUp, logout, cookies }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+// Hook to use AuthContext
+export function useAuth() {
+  return useContext(AuthContext);
 }

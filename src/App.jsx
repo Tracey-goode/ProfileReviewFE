@@ -1,23 +1,36 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
 import Login from "./Pages/Login";
 import Register from "./Pages/register";
 import Home from "./Pages/Home";
 import ProfilePage from "./Components/UserCard";
+import { AuthContext } from "./Components/AuthContext";
 
-function App() {
-  // get logged-in user from localStorage
-  const user = JSON.parse(localStorage.getItem("user"));
+export default function App() {
+
+ const { token } = useContext(AuthContext);
+
+ const ProtectedRoute = ({ children }) => {
+    return token ? children : <Navigate to="/login" />;
+  };
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/home" element={user ? <Home /> : <Navigate to="/" />} />
-        <Route path="/user/:id" element={user ? <ProfilePage /> : <Navigate to="/" />} />
-      </Routes>
-    </Router>
+     <Routes>
+      <Route path="/" element={<Navigate to="/home" />} />
+      
+      <Route path="/home" element={
+        <ProtectedRoute>
+          <Home/>
+        </ProtectedRoute>} />
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route path="/profile/:id" element={
+        <ProtectedRoute>
+          <ProfilePage />
+        </ProtectedRoute>} />
+    </Routes>
   );
 }
 
-export default App;

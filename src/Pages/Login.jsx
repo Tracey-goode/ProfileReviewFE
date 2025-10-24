@@ -22,7 +22,8 @@ export default function Login() {
             });
             setToken(res.data.token);
             setUser(res.data.user); 
-            // ✅ Navigate to homepage
+
+            // Back to Home Page
             navigate("/home");
         } catch (error) {
             console.error("Login error:", error);
