@@ -36,7 +36,10 @@ export function AuthProvider({ children }) {
 
       // Store token in cookie so it can be used for authenticated requests.
       // We set path:"/" so the cookie is available across the whole app.
-      setCookie("token", res.data.token, { path: "/" });
+  setCookie("token", res.data.token, { path: "/" });
+  // Also persist the user's id in a cookie for components that
+  // rely on a cookie fallback when in-memory `user` is not set.
+  setCookie("userId", res.data.user?.id, { path: "/" });
 
       // Save user details in state so components can render user-specific UI.
       setUser(res.data.user); // set user after login
@@ -56,8 +59,9 @@ export function AuthProvider({ children }) {
       });
 
       // Save token and user after successful registration
-      setCookie("token", res.data.token, { path: "/" });
-      setUser(res.data.user);
+  setCookie("token", res.data.token, { path: "/" });
+  setCookie("userId", res.data.user?.id, { path: "/" });
+  setUser(res.data.user);
     } catch (err) {
       console.error("Signup failed", err.response?.data || err.message);
       throw err;
@@ -68,7 +72,9 @@ export function AuthProvider({ children }) {
   // Removing the token cookie and clearing the user state fully logs
   // the current user out of the application.
   function logout() {
+    // Remove both token and userId cookies and clear in-memory user
     removeCookie("token", { path: "/" });
+    removeCookie("userId", { path: "/" });
     setUser(null);
   }
 
