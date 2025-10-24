@@ -194,7 +194,7 @@ export default function ProfilePage() {
                         setIsEditing(!isEditing);
                         setError("");
                     }} style={{ margin: "8px 0", background: 'transparent', border: '1px solid #ccc', padding: '6px 10px' }}>
-                        {isEditing ? "Nevermind" : "Edit Profile?"}
+                        {isEditing ? "Nevermind" : "Edit"}
                     </button>
                 )}
 
