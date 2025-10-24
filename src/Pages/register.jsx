@@ -1,24 +1,21 @@
-// register.jsx
-// This page allows new users to create an account. It calls `signUp`
-// from AuthContext and redirects to /home on success.
-import React, { useState } from "react";
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Components/AuthContext.jsx";
 import "../Styles/login.css";
 
-// Register page component
+
 export default function Register() {
-  // get signUp helper to create new accounts
+  
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
-  // Controlled form state
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // Runs when the registration form is submitted. Calls signUp and
-  // navigates to the home page on success or shows an error message.
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -31,7 +28,7 @@ export default function Register() {
     }
   };
 
-  // Render the registration form. Inputs are controlled by state.
+  
   return (
     <div className="login-page">
       <h2>Register</h2>
