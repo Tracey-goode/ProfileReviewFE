@@ -10,36 +10,24 @@ import { useAuth } from "../Components/AuthContext";
 import axios from "axios";
 import "../Styles/Homepage.css";
 
-// Home page component
 export default function Home() {
-    // useNavigate is available for any additional programmatic navigation
     const navigate = useNavigate();
-
-    // `users` stores the list fetched from the backend
     const [users, setUsers] = useState([]);
-    // `loading` indicates whether we are currently fetching data
     const [loading, setLoading] = useState(true);
-    // `error` stores friendly error messages for the UI
     const [error, setError] = useState("");
 
-    // Get authentication token from cookies via AuthContext so our
-    // API requests include a valid credential.
     const { cookies } = useAuth();
     const token = cookies?.token;
 
-    // Fetch users when the component mounts or when the token changes.
-    // This keeps the list up to date for the authenticated user.
     useEffect(() => {
         async function fetchUsers() {
             try {
                 const res = await axios.get("http://localhost:3000/api/user/all", {
                     headers: {
-                        // Send the auth token in the Authorization header
-                        Authorization: `Bearer ${token}`, // send token for auth
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
-                // Shuffle users randomly so the order changes on reload
                 const shuffled = res.data.users.sort(() => Math.random() - 0.5);
                 setUsers(shuffled);
                 setLoading(false);
@@ -53,24 +41,17 @@ export default function Home() {
         fetchUsers();
     }, [token]);
 
-    // Called when the app title is clicked in the navbar to reshuffle users
     function handleReload() {
-        // Shuffle again
         setUsers([...users].sort(() => Math.random() - 0.5));
     }
 
-    // While data is loading show a friendly loading message
     if (loading) return <p style={{ textAlign: "center", marginTop: "50px" }}>Loading users...</p>;
 
     return (
         <div>
-            {/* Navbar at the top with a reload handler */}
             <Navbar onReload={handleReload} />
-            {/* Show an error message if fetching fails */}
             {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
 
-            {/* Display users in a responsive grid using flexbox. Each user
-                is rendered as a UserCard component that links to their profile. */}
             <div className="home-container">
                 {users.map((user) => (
                     <UserCard key={user._id || user.id} user={user} />
