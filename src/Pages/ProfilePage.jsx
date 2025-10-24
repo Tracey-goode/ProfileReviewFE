@@ -1,7 +1,4 @@
-// ProfilePage.jsx
-// Displays a single user's profile information and all reviews they've
-// received. The page fetches both the user's data and their visible reviews
-// from the backend using the ID from the URL.
+
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../Components/NavBar";

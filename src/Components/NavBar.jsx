@@ -1,26 +1,21 @@
-// NavBar.jsx
-// Top navigation bar shown on most pages. Contains the app title (clickable
-// to trigger a reload/shuffle on the Home page), a placeholder Chats button,
-// and a Logout button that calls the AuthContext logout helper.
+
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import "../Styles/NavBar.css";
 
 function Navbar({ onReload }) {
-        // Programmatic navigation helper
+      
         const navigate = useNavigate();
-        // Get the current URL params to check if we're on a profile page
+       
         const { id } = useParams();
-    // Get the logout function and user info from our AuthContext
+    
     const { logout, cookies, user } = useAuth();
-    // Prefer the in-memory `user` id, fall back to cookie if present
+    
     const currentUserId = user?.id ?? cookies?.userId;
 
-        // Called when the Logout button is clicked. Uses the AuthContext
-        // logout helper to remove the authentication cookie and clear user state,
-        // then redirects the user to the login page.
+    
         function handleLogout() {
-                // Use AuthContext logout to clear cookie and user state
+         
                 logout();
                 navigate("/login");
             }
