@@ -1,53 +1,59 @@
-import {useState} from "react";
-import axios from 'axios';
-import {useNavigate} from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Components/AuthContext.jsx";
 
-function Register(){
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+export default function Register() {
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
 
-    
-    async function handleRegister(e) {
-        e.preventDefault();
-        setError("");
-        
-        try{
-        const res = await axios.post("http://localhost:3000/api/auth/register",{
-            email, password,
-        });
-        
-        navigate("/home");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      await signUp({ email, password });
+      navigate("/home"); // go to homepage after signup
     } catch (err) {
-        console.error("Registration Error", err);
-        if (err.response && err.response.data && err.response.data.message) {
-            setError(err.respose.data.message);
-        } else {
-            setError("Registration failed. Try again");
-        }
+      setError("Registration failed. Maybe email already exists?");
     }
-}
+  };
 
-
-    return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h2>Register</h2>
-            <form onSubmit={handleRegister} style={{ display: "inline-block", textAlign: "left" }}>
-                <label>Email:</label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required /><br />
-
-                <label>Password:</label>
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} required /><br />
-
-                <button type="submit" style={{ marginTop: "10px" }}>Register</button>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-            </form>
-            <div style={{ marginTop: "10px" }}>
-                <button onClick={() => navigate("/")}>Back to Login</button>
-            </div>
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-    );
-}
 
-export default Register;
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <p>
+        Already have an account? <a href="/login">Login</a>
+      </p>
+    </div>
+  );
+}

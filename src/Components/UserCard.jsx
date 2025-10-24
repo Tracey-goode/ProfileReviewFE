@@ -2,18 +2,23 @@ import { useNavigate } from "react-router-dom";
 
 export default function UserCard({ user }) {
     const navigate = useNavigate();
+    const userId = user?._id ?? user?.id;
+    const clickable = !!userId;
 
     return (
         <div
-            onClick={() => navigate(`/user/${user._id || user.id}`)}
+            onClick={clickable ? () => navigate(`/profile/${userId}`) : undefined}
+            role={clickable ? "button" : undefined}
             style={{
                 border: "1px solid gray",
                 borderRadius: "8px",
                 padding: "10px",
                 width: "180px",
-                cursor: "pointer",
+                cursor: clickable ? "pointer" : "default",
                 textAlign: "center",
                 boxShadow: "2px 2px 6px rgba(0,0,0,0.1)",
+                opacity: clickable ? 1 : 0.65,
+                pointerEvents: clickable ? "auto" : "none",
             }}
         >
             

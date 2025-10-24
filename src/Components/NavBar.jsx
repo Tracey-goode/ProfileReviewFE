@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 import "../Styles/NavBar.css";
 
 function Navbar({ onReload }) {
-    const navigate = useNavigate();
+        const navigate = useNavigate();
+        const { logout } = useAuth();
 
-    function handleLogout() {
-        localStorage.removeItem("user"); 
-        navigate("/");
-      }
+        function handleLogout() {
+                // Use AuthContext logout to clear cookie and user state
+                logout();
+                navigate("/login");
+            }
 
     return (
         <nav className="navbar">

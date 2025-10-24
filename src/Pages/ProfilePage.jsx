@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../Components/NavBar";
+import { useAuth } from "../Components/AuthContext";
 import axios from "axios";
 
 export default function ProfilePage() {
@@ -8,7 +9,8 @@ export default function ProfilePage() {
     const [user, setUser] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
-    const token = localStorage.getItem("token");
+    const { cookies } = useAuth();
+    const token = cookies?.token;
 
     useEffect(() => {
         async function fetchProfile() {

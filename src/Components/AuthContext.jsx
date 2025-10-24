@@ -1,5 +1,5 @@
 import {useCookies} from 'react-cookie';
-import{createContext, useState, useEffect} from 'react';
+import{createContext, useState, useEffect, useContext} from 'react';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -53,7 +53,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// Hook to use AuthContext
 export function useAuth() {
   return useContext(AuthContext);
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserCard from "../Components/UserCard";
 import Navbar from "../Components/NavBar";
+import { useAuth } from "../Components/AuthContext";
 import axios from "axios";
 
 export default function Home() {
@@ -10,8 +11,9 @@ export default function Home() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    // Get stored token
-    const token = localStorage.getItem("token");
+    // Get stored token from cookies via AuthContext
+    const { cookies } = useAuth();
+    const token = cookies?.token;
 
     useEffect(() => {
         async function fetchUsers() {

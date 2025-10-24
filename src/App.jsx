@@ -1,17 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useContext } from "react";
 import Login from "./Pages/Login";
 import Register from "./Pages/register";
 import Home from "./Pages/Home";
-import ProfilePage from "./Components/UserCard";
-import { AuthContext } from "./Components/AuthContext";
+import ProfilePage from "./Pages/ProfilePage";
+import { useAuth } from "./Components/AuthContext";
 
 export default function App() {
 
- const { token } = useContext(AuthContext);
+ const { cookies } = useAuth();
 
  const ProtectedRoute = ({ children }) => {
-    return token ? children : <Navigate to="/login" />;
+    return cookies?.token ? children : <Navigate to="/login" />;
   };
 
   return (
